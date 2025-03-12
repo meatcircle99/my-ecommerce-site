@@ -10,13 +10,13 @@ $success = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
-    $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-    $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
-    $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING);
-    $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT);
-    $unit_type = filter_input(INPUT_POST, 'unit_type', FILTER_SANITIZE_STRING);
-    $increment_value = filter_input(INPUT_POST, 'increment_value', FILTER_VALIDATE_FLOAT);
-    $stock_quantity = filter_input(INPUT_POST, 'stock_quantity', FILTER_VALIDATE_INT); // New field
+    $name = htmlspecialchars(strip_tags(filter_input(INPUT_POST, 'name', FILTER_DEFAULT)), ENT_QUOTES, 'UTF-8') ?? '';
+    $price = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT) ?? 0.0;
+    $description = htmlspecialchars(strip_tags(filter_input(INPUT_POST, 'description', FILTER_DEFAULT)), ENT_QUOTES, 'UTF-8') ?? '';
+    $category_id = filter_input(INPUT_POST, 'category_id', FILTER_VALIDATE_INT) ?? 0;
+    $unit_type = htmlspecialchars(strip_tags(filter_input(INPUT_POST, 'unit_type', FILTER_DEFAULT)), ENT_QUOTES, 'UTF-8') ?? '';
+    $increment_value = filter_input(INPUT_POST, 'increment_value', FILTER_VALIDATE_FLOAT) ?? 0.0;
+    $stock_quantity = filter_input(INPUT_POST, 'stock_quantity', FILTER_VALIDATE_INT) ?? 0;
     $image = $_FILES['image']['name'] ?? '';
 
     if (!$name || !$price || !$description || !$category_id || !$unit_type || !$increment_value || $stock_quantity === false || !$image) {
